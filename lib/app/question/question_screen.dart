@@ -82,7 +82,8 @@ class QuestionScreen extends StatelessWidget {
                                               )
                                             : QuestionCheckBoxWidget(
                                                 question:
-                                                    questionsWithNoChildren[index],
+                                                    questionsWithNoChildren[
+                                                        index],
                                                 // answers: sectionCtrl
                                                 //     .checkBoxAnswersWithNoChildren,
                                               ));
@@ -94,7 +95,7 @@ class QuestionScreen extends StatelessWidget {
                   ),
                   //!===============================================================
                   //? get data with children
-                  /*
+
                   sectionCtrl.loading == true
                       ? const Center(child: LoaderWidget())
                       : Column(
@@ -144,13 +145,13 @@ class QuestionScreen extends StatelessWidget {
                                                     .radioAnswersWithChildren,
                                               )
                                             : QuestionCheckBoxWidget(
-                                                question: questionsWithChildren[index],
+                                                question: questionsWithChildren[
+                                                    index],
                                                 // answers: sectionCtrl
                                                 //     .checkBoxAnswersWithChildren,
                                               ));
                           }),
                         ),
-                    */
                 ],
               );
             }),

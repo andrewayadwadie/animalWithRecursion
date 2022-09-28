@@ -23,4 +23,4 @@ class QuestionCheckBoxController extends GetxController {
     log("selected : $selected");
     update();
   }
-}
+} 
