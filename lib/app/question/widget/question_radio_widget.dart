@@ -18,6 +18,7 @@ class QuestionRadioWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: GetBuilder<QuestionRadioController>(
           init: QuestionRadioController(),
+                global: false,
           builder: (ctrl) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +35,7 @@ class QuestionRadioWidget extends StatelessWidget {
                         value: answers['${question.id}']![index].id,
                         groupValue: ctrl.selectedMap['${question.id}'],
                         onChanged: (value) {
-                          ctrl.changeValue(value, '${question.id}');
+                          ctrl.changeValue(value, '${question.id}',answers['${question.id}']![index].name);
                         },
                       ),
                       title: Text(

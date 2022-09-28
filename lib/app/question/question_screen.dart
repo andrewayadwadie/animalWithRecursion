@@ -1,3 +1,7 @@
+
+import 'dart:developer';
+
+import 'package:animal_wealth/app/question/controller/question_radio_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -90,7 +94,7 @@ class QuestionScreen extends StatelessWidget {
                           }),
                         ),
                   const Divider(
-                    thickness: 20,
+                    thickness: 5,
                     color: redColor,
                   ),
                   //!===============================================================
@@ -98,60 +102,186 @@ class QuestionScreen extends StatelessWidget {
 
                   sectionCtrl.loading == true
                       ? const Center(child: LoaderWidget())
-                      : Column(
-                          children: List.generate(questionsWithChildren.length,
-                              (index) {
-                            return Container(
-                                margin: const EdgeInsets.all(10),
-                                padding: const EdgeInsets.all(10),
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height / 5,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: primaryColor),
-                                    borderRadius: BorderRadius.circular(12)),
-                                child: questionsWithChildren[index].type ==
-                                        'text'
-                                    ? QuestionTextWidget(
-                                        controller: sectionCtrl
-                                                    .textControllersWithChildren[
-                                                "${questionsWithChildren[index].id}"] ??
-                                            TextEditingController(),
-                                        title:
-                                            questionsWithChildren[index].name,
-                                        questionAnswers:
-                                            questionsWithChildren[index]
-                                                .questionAnswers,
-                                      )
-                                    : questionsWithChildren[index].type ==
-                                            'date'
-                                        ? QuestionDateWidget(
-                                            dateController: sectionCtrl
-                                                        .datesWithChildren[
-                                                    "${questionsWithChildren[index].id}"] ??
-                                                TextEditingController(),
-                                            title: questionsWithChildren[index]
-                                                .name,
-                                            questionAnswers:
-                                                questionsWithChildren[index]
-                                                    .questionAnswers,
-                                          )
-                                        : questionsWithChildren[index].type ==
-                                                'radio button'
-                                            ? QuestionRadioWidget(
-                                                question: questionsWithChildren[
-                                                    index],
-                                                answers: sectionCtrl
-                                                    .radioAnswersWithChildren,
+                      : GetBuilder<QuestionRadioController>(
+                          init: QuestionRadioController(),
+                          global: false,
+                          builder: (radioCtrl) {
+                            return Column(
+                              children: List.generate(
+                                  questionsWithChildren.length, (index) {
+                                return Column(
+                                  children: [
+                                    Container(
+                                        margin: const EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                5,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                width: 1, color: primaryColor),
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                        child: questionsWithChildren[index]
+                                                    .type ==
+                                                'text'
+                                            ? QuestionTextWidget(
+                                                controller: sectionCtrl
+                                                            .textControllersWithChildren[
+                                                        "${questionsWithChildren[index].id}"] ??
+                                                    TextEditingController(),
+                                                title:
+                                                    questionsWithChildren[index]
+                                                        .name,
+                                                questionAnswers:
+                                                    questionsWithChildren[index]
+                                                        .questionAnswers,
                                               )
-                                            : QuestionCheckBoxWidget(
-                                                question: questionsWithChildren[
-                                                    index],
-                                                // answers: sectionCtrl
-                                                //     .checkBoxAnswersWithChildren,
-                                              ));
+                                            : questionsWithChildren[index]
+                                                        .type ==
+                                                    'date'
+                                                ? QuestionDateWidget(
+                                                    dateController: sectionCtrl
+                                                                .datesWithChildren[
+                                                            "${questionsWithChildren[index].id}"] ??
+                                                        TextEditingController(),
+                                                    title:
+                                                        questionsWithChildren[
+                                                                index]
+                                                            .name,
+                                                    questionAnswers:
+                                                        questionsWithChildren[
+                                                                index]
+                                                            .questionAnswers,
+                                                  )
+                                                : questionsWithChildren[index]
+                                                            .type ==
+                                                        'radio button'
+                                                    ? QuestionRadioWidget(
+                                                        question:
+                                                            questionsWithChildren[
+                                                                index],
+                                                        answers: sectionCtrl
+                                                            .radioAnswersWithChildren,
+                                                      )
+                                                    : QuestionCheckBoxWidget(
+                                                        question:
+                                                            questionsWithChildren[
+                                                                index],
+                                                        // answers: sectionCtrl
+                                                        //     .checkBoxAnswersWithChildren,
+                                                      )),
+                                    //! children question
+
+                                    Column(
+                                      children: List.generate(
+                                          questionsWithChildren[index]
+                                              .children
+                                              .length, (childIndex) {
+                                               log('radio select ${radioCtrl.selectedMapNames['${questionsWithChildren[index].id}']}');
+                                               log('question children name  ${questionsWithChildren[index].children[childIndex].name}' );
+                                        return radioCtrl.selectedMapNames['${questionsWithChildren[index].id}'] ==
+                                                questionsWithChildren[index].children[childIndex].name
+                                            ? Container(
+                                                margin:
+                                                    const EdgeInsets.all(10),
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    5,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: primaryColor),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
+                                                child: questionsWithChildren[
+                                                                index]
+                                                            .children[
+                                                                childIndex]
+                                                            .type ==
+                                                        'text'
+                                                    ? QuestionTextWidget(
+                                                        controller: sectionCtrl
+                                                                    .textControllersWithChildren[
+                                                                "${questionsWithChildren[index].children[childIndex].id}"] ??
+                                                            TextEditingController(),
+                                                        title:
+                                                            questionsWithChildren[
+                                                                    index]
+                                                                    
+                                                                .children[
+                                                                    childIndex]
+                                                                .name,
+                                                        questionAnswers:
+                                                            questionsWithChildren[
+                                                                    index]
+                                                                .children[
+                                                                    childIndex]
+                                                                .questionAnswers,
+                                                      )
+                                                    : questionsWithChildren[
+                                                                    index]
+                                                                .children[
+                                                                    childIndex]
+                                                                .type ==
+                                                            'date'
+                                                        ? QuestionDateWidget(
+                                                            dateController: sectionCtrl
+                                                                        .datesWithChildren[
+                                                                    "${questionsWithChildren[index].children[childIndex].id}"] ??
+                                                                TextEditingController(),
+                                                            title: questionsWithChildren[
+                                                                    index]
+                                                                .children[
+                                                                    childIndex]
+                                                                .name,
+                                                            questionAnswers:
+                                                                questionsWithChildren[
+                                                                        index]
+                                                                    .children[
+                                                                        childIndex]
+                                                                    .questionAnswers,
+                                                          )
+                                                        : questionsWithChildren[
+                                                                        index]
+                                                                    .children[
+                                                                        childIndex]
+                                                                    .type ==
+                                                                'radio button'
+                                                            ? QuestionRadioWidget(
+                                                                question: questionsWithChildren[
+                                                                            index]
+                                                                        .children[
+                                                                    childIndex],
+                                                                answers: sectionCtrl
+                                                                    .radioAnswersWithChildren,
+                                                              )
+                                                            : QuestionCheckBoxWidget(
+                                                                question: questionsWithChildren[
+                                                                            index]
+                                                                        .children[
+                                                                    childIndex],
+                                                                // answers: sectionCtrl
+                                                                //     .checkBoxAnswersWithChildren,
+                                                              ),
+                                              )
+                                            : const SizedBox();
+                                      }),
+                                    )
+                                  ],
+                                );
+                              }),
+                            );
                           }),
-                        ),
                 ],
               );
             }),
